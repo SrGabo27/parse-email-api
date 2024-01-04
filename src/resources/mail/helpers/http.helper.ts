@@ -1,5 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { AxiosRequestConfig, AxiosResponse, ResponseType } from 'axios';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -14,5 +15,16 @@ export class HttpHelper {
     );
 
     return res.data;
+  }
+
+  public fetchData(
+    url: string,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse> {
+    return firstValueFrom(
+      this.httpService.get(url, {
+        ...options,
+      }),
+    );
   }
 }
